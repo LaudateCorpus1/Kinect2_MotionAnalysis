@@ -1,0 +1,28 @@
+*** Mapping from 25 Kinect2 nodes to Simm nodes ***
+
+[Kinect2 : SIMM]
+SpineBase	  : V_Spine_Base
+SpineMid	  : V_Spine_Mid	
+Neck          : V_Neck
+Head          : V_Head
+ShoulderLeft  : V_Shoulder_Left
+ElbowLeft     : V_Elbow_Left
+WristLeft     : V_Wrist_Left
+HandLeft      : V_Hand_Left
+ShoulderRight : V_Shoulder_Right
+ElbowRight    : V_Elbow_Right
+WristRight    : V_Wrist_Right
+HandRight     : V_Hand_Right
+HipLeft       : V_Hip_Left
+KneeLeft      : V_Knee_Left
+AnkleLeft     : V_Ankle_Left
+FootLeft      : V_Foot_Left
+HipRight      : V_Hip_Right
+KneeRight     : V_Knee_Right
+AnkleRight    : V_Ankle_Right
+FootRight     : V_Foot_Right
+SpineShoulder : V_Spine_Shoulder
+HandTipLeft   : V_Hand_Tip_Left
+ThumbLeft     : V_Thumb_Left
+HandTipRight  : V_Hand_Tip_Right
+ThumbRight    : V_Thumb_Right

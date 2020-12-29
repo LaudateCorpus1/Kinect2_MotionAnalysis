@@ -1,0 +1,49 @@
+### BodyOnColor Project
+-I'm combining body Basics and Color basics. Therefore, I'm merging methods where necessary and making separate copies of variables with the same names in the individual projects
+	-I'm maintaining timers for each of the streams, but I'm only using the Depth timer (nTimeD) for estimating the frame rate right now
+
+BodyOnColor.h
+m_nFramesSinceUpdate -> m_nFramesSinceUpdateD & m_nFramesSinceUpdateC
+
+ProcessBody and ProcessColor merge into ProcessBodyOnColor
+-merge inputs in both declaration and definition
+-Do I need a timestampe for each frame type? Probably.
+-m_pRenderTarget->Clear();
+	-I'm unclear if this clears the previous skeleton, or if it clears the entire figure window. Keep this in mind when debugging the runtime behavior.
+	-I'll start by assuming it just clears the skeleton
+		-The method EnsureDirect2DResources creates the Body specific rendering target.
+			-Will this conflict with the image rendering?
+			-I believe this is ok, because I think it is just associating the handle for the skeleton with the image
+
+-Currently the routines for saving a bitmap are only built to write out the HD RBG image obtained from the sensor, not the resulting rendered image (RGB + skeleton)
+
+-PAINFUL LESSON: Apparently the .rc files set up the parameters for requesting windows from the operating system. I had initially used the .rc from bodyBasics. Unfortunately, this did not include all the features used by the colorBasics sample. Specifically, I needed a line in the .rc file for the save screenshot command, and I didn't. This discrepency was causing the handle parameter requested to come back NUL! Fun Fun...not!
+
+For reasons that are not clear to me, I can't include stdio and iostream to write to stdout i.e. I can't print things to the command line.
+
+There is a definite mess between the ImageRender used for the Colorbasics and the Use of Direct2D for bodyBasics. Both use Direct2D routines, the former encapsulates them in a separate header and source file, while the latter uses class methods to handle the data as it comes. Fun.
+
+-Note:
+
+hr = m_pD2DFactory->CreateHwndRenderTarget(
+			rtProps,
+			D2D1::HwndRenderTargetProperties(GetDlgItem(m_hWnd, IDC_VIDEOVIEW), size),
+			&m_pRenderTarget
+			);
+
+is different from:
+
+hr = m_pD2DFactory->CreateHwndRenderTarget(
+            rtProps,
+            D2D1::HwndRenderTargetProperties(m_hWnd, size),
+            &m_pRenderTarget
+        );
+
+I believe the former is just a name for any handle window, whereas the latter is specifically requesting the handle for the video viewer IDC_VIDEOVIEW, which in this case was set up in BodyOnColor.rc (They result in very different behavior)
+
+-(5/29/2014) Adding File Writing functionality to the existing code. This consists of several parts:
+	-1) creating a file name(s): first attempty complete
+	-2) opening the file(s)
+	-3) writing the data
+	-4) closing the files(s)
+	
